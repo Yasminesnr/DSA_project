@@ -1,0 +1,9 @@
+{
+  "C_Cpp.errorSquiggles": "enabled",
+  "files.associations": {
+    "xutility": "cpp",
+    "xstring": "cpp",
+    "unordered_map": "cpp",
+    "xhash": "cpp"
+  }
+}
