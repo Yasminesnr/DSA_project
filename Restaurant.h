@@ -123,27 +123,7 @@ public:
         return WSG;
     }
 
-private:
-    string ID; // we chose to make it a string so that we can manipulate it using strings functions (e.g., substrings to extract numbers of wilayas and cities)
-    string name;
-    int num_of_employees;
-    unordered_map<string, DailyData> daily_data; // store the daily data in unordered_map based on the string key : date
-    unordered_map<string, MonthlyData> monthly_data; // store the monthly data in unordered_map based on the string key : date
-    string wilaya;
-    string city;
-    // the ratio used to determine the winner of the prize. it is also called Weighted Sales Growth
-    // it is calculated by calling the function update_weighted_sales()
-    // it is cumulative for each cuisine
-    double WSG[5]= {0}; //initialize at zero value
-
-    // function to generate the id
-    // so far this function depends on the file containing the wilayas and cities and thier corresponding numbers
-    // ideas: add function to transform wilayas and cities to numbers and vice versa
-    // still don't get the cities and districts thing
-    string generate_id(const string &wilaya, const string &city){
-        string id = "";
-        return id;
-    }
+    //******************************* Daily Data Functions ************************************************
 
     // function to calculate the daily cost according to that date
     // consider reducing the number of parameters, maybe the all the ingrediants together?
@@ -168,6 +148,8 @@ private:
         // update the total sales
         corr_date->second.daily_sales[0] = algerian_sales + syrian_sales + chinese_sales + indian_sales + european_sales;
     }
+
+    // *************************************** Monthly Data Functions ********************************
 
     // function to calculate the monthly cuisine sales
     // remember, the order of the cuisines is Algerian, Syrian, Chinese, Indian, and European
@@ -250,15 +232,84 @@ private:
         }
     }
 
-    // function to display a report of the sales of any restaurant at any month
-    // since the function may take or any restaurat it sould be out of this function
-    // it takes the id and the month as parameters and displays the following point:
-    /*
-    -)Total Sales: The overall sales figure for the specified month.
-    -)Cuisine-wise Sales Breakdown: Sales figures for each cuisine during that month.
-    -)Cost Breakdown: Details on various costs incurred during that month, like rent, employee salaries, ingredients, etc.
-    -)Profit/Loss Analysis: Calculations based on total sales and total costs to determine the profit or loss for the month.
-    */
+
+    // function to display a report of the sales of this restaurant at any month
+    // this function will be called to display the report of any restaurant at any month
+    // Inside the Restaurant class
+    void display_monthly_report(const string &target_month) const {
+        cout << "Report for Restaurant " << ID << " in " << target_month << ":" << endl;
+
+        // 1. Total Sales
+        double total_sales = monthly_data.at(target_month).monthly_sales[0];
+        cout << "Total Sales: $" << total_sales << endl;
+
+        // 2. Cuisine-wise Sales Breakdown
+        cout << "Cuisine-wise Sales Breakdown:" << endl;
+        for (int cuisine = 1; cuisine < 6; cuisine++) {
+            double cuisine_sales = monthly_data.at(target_month).monthly_sales[cuisine];
+            cout << "   Cuisine " << cuisine << ": $" << cuisine_sales << endl;
+        }
+
+        // 3. Monthly Rating
+        cout << "Monthly Rating:" << endl;
+        for (int cuisine = 0; cuisine < 5; cuisine++) {
+            double avg_rating = monthly_data.at(target_month).monthly_rating[cuisine];
+            cout << "   Cuisine " << cuisine + 1 << ": " << avg_rating << endl;
+        }
+
+        // 4. Return of Investment (ROI)
+        double roi = monthly_data.at(target_month).ROI;
+        cout << "Return of Investment (ROI): " << roi << endl;
+
+    }
+
+    // *************************************** Period Functions ************************************
+
+    // function to calculate the sales for a specific month
+    double* calculate_period_sales(const string &start_date, const string &end_date){
+        double* sales = new double[6]; 
+        fill(sales, sales+6, 0); // initialize them to zero
+
+        // iterate over the daily sales within the specified period
+        auto date_iter = daily_data.lower_bound(start_date);
+        while(date_iter != daily_data.end() && date_iter->first <= end_date){
+            // iterate over the cuisines
+            for(int cuisine = 0; cuisine < 6; cuisine++){
+                sales[cuisine] += date_iter->second.daily_sales[cuisine];
+            }
+            date_iter++;    
+        }
+        return sales;
+
+        // DO NOT FORGET TO DELETE THE SALES AFTER USING THEM TO AVOID MEMORY LEAK
+    }
+
+private:
+
+    // ********************* Data Members ******************************************************
+
+    string ID; // we chose to make it a string so that we can manipulate it using strings functions (e.g., substrings to extract numbers of wilayas and cities)
+    string name;
+    int num_of_employees;
+    unordered_map<string, DailyData> daily_data; // store the daily data in unordered_map based on the string key : date
+    unordered_map<string, MonthlyData> monthly_data; // store the monthly data in unordered_map based on the string key : date
+    string wilaya;
+    string city;
+    // the ratio used to determine the winner of the prize. it is also called Weighted Sales Growth
+    // it is calculated by calling the function update_weighted_sales()
+    // it is cumulative for each cuisine
+    double WSG[5]= {0}; //initialize at zero value
+
+    // ******************************* generate the Id ************************************************
+
+    // function to generate the id
+    // so far this function depends on the file containing the wilayas and cities and thier corresponding numbers
+    // ideas: add function to transform wilayas and cities to numbers and vice versa
+    // still don't get the cities and districts thing
+    string generate_id(const string &wilaya, const string &city){
+        string id = "";
+        return id;
+    }
 
 };
 
