@@ -30,16 +30,12 @@ struct DailyData{
     double daily_rating[5];
 
     // The constructor
-    DailyData(double s[6], double &c, double &pub, double r[5])
-        : daily_cost{c}, daily_pub{pub}{
-            // initialize the daily_sales array by copying the array s
-            // in this case the name of the array s is treated as a pointer to the first element of the array
-            // similarly s+6 is treated as a pointer to the last element of the array
-            copy(s, s+6, daily_sales); 
+    DailyData()
+        : daily_cost(0), daily_pub(0) {
+        fill(begin(daily_sales), end(daily_sales), 0);
+        fill(begin(daily_rating), end(daily_rating), 0);
+}
 
-            // initialize the daily_rating array by copying the array r
-            copy(r, r+5, daily_rating);
-        }
 };
 
 struct MonthlyData{
@@ -66,12 +62,12 @@ struct MonthlyData{
         // in this case we should create a function to calculate daily rent from monthly rent
 
     // constructor 
-    MonthlyData(double s[6], double r[5], double &pub, double &roi)
-        : monthly_pub(pub), ROI(roi){
-            copy(s, s+6, monthly_sales);
+    MonthlyData()
+    : monthly_pub(0), ROI(0) {
+    fill(begin(monthly_sales), end(monthly_sales), 0);
+    fill(begin(monthly_rating), end(monthly_rating), 0);
+}
 
-            copy(r, r+5, monthly_rating);  
-        }
 };
 
 class Restaurant {
@@ -165,7 +161,7 @@ public:
         string first_day = target_month + "-01";
 
         // iterate throught the daily_data beginning from the first day of the month
-        auto date_iter = daily_data.lower_bound(first_day); // this returns a ptr to the first day of the month
+        auto date_iter = daily_data.find(first_day); // this returns a ptr to the first day of the month
         while(date_iter != daily_data.end() && date_iter->first.substr(0, 7) == target_month) { // the iterator didn't reach the end and the months match
             for(int cuisine = 1; cuisine < 6; cuisine ++){
                     monthly_data[target_month].monthly_sales[cuisine] += date_iter->second.daily_sales[cuisine];
@@ -191,7 +187,7 @@ public:
         string first_day = target_month + "-01";
 
         // iterate throught the daily_data beginning from the first day of the month
-        auto date_iter = daily_data.lower_bound(first_day); // this returns a ptr to the first day of the month
+        auto date_iter = daily_data.find(first_day); // this returns a ptr to the first day of the month
         while(date_iter != daily_data.end() && date_iter->first.substr(0, 7) == target_month) { // the iterator didn't reach the end and the months match
             for(int cuisine = 0; cuisine < 5; cuisine ++){
                     monthly_data[target_month].monthly_rating[cuisine] += date_iter->second.daily_rating[cuisine];
@@ -211,8 +207,8 @@ public:
         string first_day = target_month + "-01";
 
         // iterate throught the daily_data beginning from the first day of the month
-        auto date_iter = daily_data.lower_bound(first_day); // this returns a ptr to the first day of the month
-        while(date_iter != daily_data.end() && date_iter->first.substr(0, 7) == target_month) { // the iterator didn't reach the end and the months match
+        auto date_iter = daily_data.find(first_day); // this returns a ptr to the first day of the month
+        while(date_iter != daily_data.end() && date_iter->first.substr(0, 7) == target_month) { // the iterator didn't reach the end and the months match // +"-32" ensures that we don't fall in an infinite loop
             monthly_data[target_month].monthly_pub += date_iter->second.daily_pub;
             ++date_iter;
         }
@@ -270,8 +266,10 @@ public:
         double* sales = new double[6]; 
         fill(sales, sales+6, 0); // initialize them to zero
 
+        // find the start date for the iteration
+        auto date_iter = daily_data.find(start_date);
+
         // iterate over the daily sales within the specified period
-        auto date_iter = daily_data.lower_bound(start_date);
         while(date_iter != daily_data.end() && date_iter->first <= end_date){
             // iterate over the cuisines
             for(int cuisine = 0; cuisine < 6; cuisine++){
@@ -283,6 +281,7 @@ public:
 
         // DO NOT FORGET TO DELETE THE SALES AFTER USING THEM TO AVOID MEMORY LEAK
     }
+
 
 private:
 
