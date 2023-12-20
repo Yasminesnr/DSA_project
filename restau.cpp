@@ -11,7 +11,7 @@ int main() {
     double wsg[5] = {0.1, 0.2, 0.3, 0.4, 0.5};  // Sample Weighted Sales Growth
 
     // Create a Restaurant instance
-    Restaurant myRestaurant("123", "My Restaurant", 10, dailyData, monthlyData, wilaya, city, wsg);
+    Restaurant myRestaurant("My Restaurant", 10, dailyData, monthlyData, wilaya, city, wsg);
 
     // Invoke functions to update data
     myRestaurant.update_daily_sales("2023-01-01", 100, 150, 200, 80, 120);

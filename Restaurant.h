@@ -363,7 +363,6 @@ private:
     // ideas: add function to transform wilayas and cities to numbers and vice versa
     // still don't get the cities and districts thing
     void generate_id(const string &wilaya, const string &city){
-        void generate_id(const string& wilaya, const string& city) {
         //the ID is composed of: wilaya code|city code|6 digits number 
         string SixDigitsNum = "000000" + to_string(restaurantNum); 
         //If the restaurant count has fewer than 6 digits, 
@@ -372,7 +371,6 @@ private:
         SixDigitsNum = SixDigitsNum.substr(SixDigitsNum.length() - 6); //to take the last 6 characters
 
         ID = wilaya + city + SixDigitsNum;
-    }
     }
 
 };
