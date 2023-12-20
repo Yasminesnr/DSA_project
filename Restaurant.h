@@ -78,8 +78,10 @@ class Restaurant {
 
 public:
     // constructor
-    Restaurant(string id, string name, int noe, unordered_map<string, DailyData> ddata, unordered_map<string, MonthlyData> mdata, string &w, string &c, double wsg[5])
-        : ID{id}, name{name}, num_of_employees{noe}, daily_data{move(ddata)}, monthly_data{move(mdata)}, wilaya{w}, city{c}{ 
+    Restaurant(string name, int noe, unordered_map<string, DailyData> ddata, unordered_map<string, MonthlyData> mdata, string &w, string &c, double wsg[5])
+        : name{name}, num_of_employees{noe}, daily_data{move(ddata)}, monthly_data{move(mdata)}, wilaya{w}, city{c}{ 
+            restaurantNum++;
+            generate_id(w,c);
             copy(wsg, wsg+5, WSG);
         } //movingis more efficient when it comes to large set of data
 
@@ -121,6 +123,60 @@ public:
     // Getter for WSG array
     const double* getWSG() const {
         return WSG;
+    }
+
+bool isGreater(Restaurant root) {
+        //compare the wilayas
+        string idRestau = this->getID();
+        string wilayaCodeRest = idRestau.substr(0, 2);
+        int wCodeRestau = stoi(wilayaCodeRest); //convert the code to int
+
+        string idRoot = root.getID();
+        string wilayaCodeRoot = idRoot.substr(0, 2);
+        int wCodeRoot = stoi(wilayaCodeRoot); //convert the code to int
+
+        if (wCodeRestau > wCodeRoot)
+            return true; //the child is greater than the parent
+        else if (wCodeRestau < wCodeRoot)
+            return false; //the child is smaller than the parent
+        else //they have the same wilaya 
+        {
+            
+            //compare their cities
+            string cityCodeRest = idRestau.substr(2, 6);
+            int cCodeRestau = stoi(cityCodeRest); //convert the code to int
+
+            string cityCodeRoot = idRoot.substr(2, 6);
+            int cCodeRoot = stoi(cityCodeRoot); //convert the code to int
+
+            if (cCodeRestau > cCodeRoot)
+            {
+                cout << "cCodeRestau= " << cCodeRestau;
+                return true; //the child is greater than the parent
+            }
+            else if (cCodeRestau < cCodeRoot)
+                return false; //the child is smaller than the parent
+
+            else//they have the same city
+            {
+                //compare their 6 digits number
+                string SixDigCodeRest = idRestau.substr(6, 12);
+                int SixDigCodeRestau = stoi(SixDigCodeRest); //convert the code to int
+
+                string SixDigCodeRootStr = idRoot.substr(0, 2);
+                int SixDigCodeRoot = stoi(SixDigCodeRootStr); //convert the code to int
+
+                if (SixDigCodeRestau > SixDigCodeRoot)
+                {
+                    return true; //the child is greater than the parent
+                }
+                else if (SixDigCodeRestau < SixDigCodeRoot) 
+                {
+                    return false; //the child is smaller than the 
+                }
+
+            }
+        }
     }
 
     //******************************* Daily Data Functions ************************************************
@@ -300,15 +356,24 @@ private:
     // it is cumulative for each cuisine
     double WSG[5]= {0}; //initialize at zero value
 
+    static int restaurantNum; //for the ID initialzed at 0 it increments everytime a restaurant is created
     // ******************************* generate the Id ************************************************
 
     // function to generate the id
     // so far this function depends on the file containing the wilayas and cities and thier corresponding numbers
     // ideas: add function to transform wilayas and cities to numbers and vice versa
     // still don't get the cities and districts thing
-    string generate_id(const string &wilaya, const string &city){
-        string id = "";
-        return id;
+    void generate_id(const string &wilaya, const string &city){
+        void generate_id(const string& wilaya, const string& city) {
+        //the ID is composed of: wilaya code|city code|6 digits number 
+        string SixDigitsNum = "000000" + to_string(restaurantNum); 
+        //If the restaurant count has fewer than 6 digits, 
+        //the string "000000" is used to pad and fill the remaining 
+        //digits to ensure a fixed width of 6 characters.
+        SixDigitsNum = SixDigitsNum.substr(SixDigitsNum.length() - 6); //to take the last 6 characters
+
+        ID = wilaya + city + SixDigitsNum;
+    }
     }
 
 };
