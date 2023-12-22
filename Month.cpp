@@ -42,6 +42,11 @@ Restaurant* Month::getFiveWinners() const
 	return winners;
 }
 
+void Month::setOneCuisineWinner(int i ,Restaurant restaurant)
+{
+	this->fiveWinners[i] = restaurant;
+}
+
 Restaurant Month::getOneCuisineWinner(int i) const
 {
 	return this->fiveWinners[i];
