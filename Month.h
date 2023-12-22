@@ -15,6 +15,9 @@ public:
 	//function to retrieve the 5 winners in each cuisine a return a pointer to an array of restaurants
 	Restaurant* getFiveWinners() const;
 
+	// function to retrieve the winner for only one cuisine (i is the index of the cuisine)
+	//1: Algerian, 2: Chinese, 3: European, 4: Indian, 5: Syrian
+	Restaurant getOneCuisineWinner(int i) const;
 private:
 	int month; // the actual month from 1 to 12
 	Restaurant fiveWinners[5]; //1: Algerian, 2: Chinese, 3: European, 4: Indian, 5: Syrian
