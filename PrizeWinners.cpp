@@ -34,6 +34,13 @@ void PrizeWinners::set5PrizeWinners(int year, int month, Restaurant winners[])
 	
 }
 
+void PrizeWinners::setOneCuisineWinner(int year, int month,Restaurant restaurant, int i)
+{
+	Year* temp = startYear;
+	traverse(temp, year);
+	temp->months[month - 1].setOneCuisineWinner(i, restaurant);
+}
+
 Restaurant* PrizeWinners::get5PrizeWinners(int year, int month)
 {
 	Year* temp = startYear;
@@ -42,4 +49,13 @@ Restaurant* PrizeWinners::get5PrizeWinners(int year, int month)
 	Month targetMonth = temp->months[month - 1];
 
 	return 	targetMonth.getFiveWinners();
+}
+
+Restaurant PrizeWinners::getOneCuisineWinner(int year, int month, int i)
+{
+	Year* temp = startYear;
+	traverse(temp, year);
+	Month targetMonth = temp->months[month - 1];
+	
+	return targetMonth.getOneCuisineWinner(i);
 }
