@@ -13,11 +13,11 @@ using namespace std;
 int Restaurant::restaurantNum = 0;
 
 // constructor
-Restaurant::Restaurant(string name, int noe, string& w, string& c, double wsg[5])
+Restaurant::Restaurant(string name, int noe, string& w, string& c)
     : name{ name }, num_of_employees{ noe },  wilaya{ w }, city{ c } {
     restaurantNum++;
     generate_id(w, c);
-    copy(wsg, wsg + 5, WSG);
+    copy(WSG, WSG + 5, WSG);
 } //movingis more efficient when it comes to large set of data
 
 // Getter for ID
