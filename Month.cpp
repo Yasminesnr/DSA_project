@@ -41,3 +41,8 @@ Restaurant* Month::getFiveWinners() const
 	}
 	return winners;
 }
+
+Restaurant Month::getOneCuisineWinner(int i) const
+{
+	return this->fiveWinners[i];
+}
