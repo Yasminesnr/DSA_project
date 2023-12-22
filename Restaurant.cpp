@@ -4,6 +4,7 @@
 #include<algorithm>
 #include<string>
 #include<unordered_map>
+#include<list>
 
 using namespace std;
 
@@ -11,8 +12,8 @@ using namespace std;
 int Restaurant::restaurantNum = 0;
 
 // constructor
-Restaurant::Restaurant(string name, int noe, unordered_map<string, DailyData> ddata, unordered_map<string, MonthlyData> mdata, string& w, string& c, double wsg[5])
-    : name{ name }, num_of_employees{ noe }, daily_data{ move(ddata) }, monthly_data{ move(mdata) }, wilaya{ w }, city{ c } {
+Restaurant::Restaurant(string name, int noe, string& w, string& c, double wsg[5])
+    : name{ name }, num_of_employees{ noe }, wilaya{ w }, city{ c } {
     restaurantNum++;
     generate_id(w, c);
     copy(wsg, wsg + 5, WSG);
@@ -34,12 +35,12 @@ int Restaurant::getNumOfEmployees() const {
 }
 
 // Getter for Daily Data
-const unordered_map<string, DailyData>& Restaurant::getDailyData() const {
+unordered_map<string, DailyData>& Restaurant::getDailyData() {
     return daily_data;
 }
 
 // Getter for Monthly Data
-const unordered_map<string, MonthlyData>& Restaurant::getMonthlyData() const {
+unordered_map<string, MonthlyData>& Restaurant::getMonthlyData() {
     return monthly_data;
 }
 
@@ -110,6 +111,7 @@ bool Restaurant::isGreater(Restaurant root) {
 
         }
     }
+    return false; // or true idk
 }
 
 //******************************* Daily Data Functions ************************************************
@@ -118,11 +120,22 @@ bool Restaurant::isGreater(Restaurant root) {
 // consider reducing the number of parameters, maybe the all the ingrediants together?
 // we may want to add a condition to make sure the date exists
 double Restaurant::update_cost(const string& date, double rent, double employees_pay, double electricity, double gas, double vegetables, double meat, double other_ingrediants, double others) {
-    // first find the corresponding date and retrieve the daily_data of that date
+    // Check if the date exists in daily_data
     auto corr_date = daily_data.find(date);
 
-    return rent + employees_pay + electricity + gas + vegetables + meat + other_ingrediants + corr_date->second.daily_pub + others;
+    if (corr_date != daily_data.end()) {
+        // Date exists, return the calculated cost
+        return rent + employees_pay + electricity + gas + vegetables + meat + other_ingrediants + corr_date->second.daily_pub + others;
+    }
+    else {
+        // Date doesn't exist, handle the error (you can return an error value or throw an exception)
+        std::cerr << "Error: Date not found in daily_data for update_cost." << std::endl;
+        // You might want to handle the error in a way that makes sense for your application
+        // For now, returning 0 as an error value
+        return 0.0;
+    }
 }
+
 
 // function to update (enter) the daily sales for each cuisine
 void Restaurant::update_daily_sales(string date, double algerian_sales, double syrian_sales, double chinese_sales, double indian_sales, double european_sales) {
@@ -145,9 +158,6 @@ void Restaurant::update_daily_sales(string date, double algerian_sales, double s
 // i am not sure wether to add a restriction or not ???
 void Restaurant::update_monthly_sales(const string& target_month) {
     // the month must be of the format YYYY-MM so that it is unique
-
-    // initialize the monthly sales to zeros
-    fill(begin(monthly_data[target_month].monthly_sales), end(monthly_data[target_month].monthly_sales), 0);
 
 
     // find the first day of the month
@@ -172,20 +182,25 @@ void Restaurant::update_monthly_sales(const string& target_month) {
 void Restaurant::update_monthly_rating(const string& target_month) {
     // the month must be of the format YYYY-MM so that it is unique
 
-    // initialize the monthly rate array to zeros
-    fill(begin(monthly_data[target_month].monthly_rating), end(monthly_data[target_month].monthly_rating), 0);
-
 
     // find the first day of the month
     string first_day = target_month + "-01";
 
     // iterate throught the daily_data beginning from the first day of the month
     auto date_iter = daily_data.find(first_day); // this returns a ptr to the first day of the month
+    int days = 0; // to count the number of days in the month and divide the sum over it to get the avg rating
     while (date_iter != daily_data.end() && date_iter->first.substr(0, 7) == target_month) { // the iterator didn't reach the end and the months match
         for (int cuisine = 0; cuisine < 5; cuisine++) {
             monthly_data[target_month].monthly_rating[cuisine] += date_iter->second.daily_rating[cuisine];
         }
         ++date_iter;
+        ++days;
+    }
+
+    // Calculate the avg rating for each cuisine
+    for (int cuisine = 0; cuisine < 5; cuisine++) {
+        if (days > 0)
+            monthly_data[target_month].monthly_rating[cuisine] /= days;
     }
 }
 
@@ -193,8 +208,6 @@ void Restaurant::update_monthly_rating(const string& target_month) {
 void Restaurant::update_monthly_pub(const string& target_month) {
     // the month must be of the format YYYY-MM so that it is unique
 
-    // initialize to zero
-    monthly_data[target_month].monthly_pub = 0;
 
     // find the first day of the month
     string first_day = target_month + "-01";

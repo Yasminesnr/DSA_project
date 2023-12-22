@@ -5,6 +5,7 @@
 #include<algorithm>
 #include<string>
 #include<unordered_map>
+#include<list>
 
 using namespace std;
 
@@ -74,7 +75,7 @@ class Restaurant {
 
 public:
     // constructor
-    Restaurant(string name, int noe, unordered_map<string, DailyData> ddata, unordered_map<string, MonthlyData> mdata, string& w, string& c, double wsg[5]);
+    Restaurant(string name, int noe, string& w, string& c, double wsg[5]);
 
     // Getter for ID
     string getID() const;
@@ -86,10 +87,10 @@ public:
     int getNumOfEmployees() const;
 
     // Getter for Daily Data
-    const unordered_map<string, DailyData>& getDailyData() const;
+    unordered_map<string, DailyData>& getDailyData();
 
     // Getter for Monthly Data
-    const unordered_map<string, MonthlyData>& getMonthlyData() const;
+    unordered_map<string, MonthlyData>& getMonthlyData();
 
     // Getter for Wilaya
     string getWilaya() const;
