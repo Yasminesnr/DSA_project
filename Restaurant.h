@@ -75,7 +75,7 @@ class Restaurant {
 
 public:
     // constructor
-    Restaurant(string name, int noe, string& w, string& c, double wsg[5]);
+    Restaurant(string name, int noe, string& w, string& c);
 
     // Getter for ID
     string getID() const;
