@@ -14,13 +14,14 @@ using namespace std;
 class BinarySearchTree
 {
 
-private:
+protected://changed to protected because we will be needing the functions in here to be used in the avl tree
 
     struct BinaryNode
     {
         Restaurant element;
         BinaryNode *left;
         BinaryNode *right;
+        int height; //to be used in the avl tree
 //BinaryNode constructor 
         BinaryNode(const Restaurant &theElement, BinaryNode *lt, BinaryNode *rt)
             : element(theElement), left(lt), right(rt) {}
@@ -36,11 +37,11 @@ private:
     vector<string> AlgerianWilayas;
 
 //private insert function 
-    void insert(const Restaurant &x, BinaryNode *&t);
+    virtual void insert(const Restaurant &x, BinaryNode *&t);
 //private insert function  (to be used with rvalues )
-    void insert(Restaurant &&x, BinaryNode *&t);
+    virtual void insert(Restaurant &&x, BinaryNode *&t);
 //delete a node function 
-    void remove(const Restaurant &x, BinaryNode *&t);
+    virtual void remove(const Restaurant &x, BinaryNode *&t);
 //function to find the min
     BinaryNode *findMin(BinaryNode *t) const;
 //function to find the max
@@ -114,8 +115,10 @@ public:
     void insert(const Restaurant &x);
     void insert(Restaurant &&x);
     void remove(const Restaurant &x);
+    void printTree()const;
     Restaurant findRestaurantByID(const string& id) const;
     vector<string> ReadCitiesFromFile(const string &wcdFile);
+
      struct DistrictCities
     {
         string district;

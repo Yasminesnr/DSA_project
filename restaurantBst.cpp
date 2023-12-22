@@ -1,7 +1,6 @@
 #include "BinarySearchTree.h"
 #include <fstream>
 #include <iostream>
-#include <iomanip>
 #include <string>
 #include <unordered_map>
 #include <numeric>
@@ -157,6 +156,7 @@ void BinarySearchTree::makeEmpty(BinaryNode *&t)
 }
 
 // Private member function to print the binary search tree
+//in-order traversal
 void BinarySearchTree::printTree(BinaryNode *t, ostream &out) const
 {
     if (t != nullptr)
@@ -165,6 +165,13 @@ void BinarySearchTree::printTree(BinaryNode *t, ostream &out) const
         out << t->element << endl;
         printTree(t->right, out);
     }
+}
+
+//a public function that prints the tree (an overloaded function)
+void BinarySearchTree::printTree()const
+{
+    ostringstream out;
+    printTree(root, out);
 }
 
 // Private member function to clone a binary search tree
@@ -589,17 +596,6 @@ void BinarySearchTree::displayAllCuisineSalesInLocationDuringPeriod(const string
     //the ratio could be retrieved only by month or by year
     // if the user enters a period of time that won't work since the second month is not over yet
     
-    // Function to display ratios for a specified location (city or Wilaya)
-void BinarySearchTree::listRatioForLocation(const string& location, const string& start_date, const string& end_date) const {
-    // Call the helper function to display ratios for the specified location
-    listLocationRatioHelper(root, location, start_date, end_date);
-}
-
-// Overloaded function for displaying ratios for a specific restaurant
-void BinarySearchTree::listRatioForRestaurant(const string& restaurantName, const string& start_date, const string& end_date) const {
-    // Call the helper function to display ratios for the specified restaurant name
-    listRestaurantRatioHelper(root, restaurantName, start_date, end_date);
-}
 
 // Modified helper function to check for the specified location or restaurant name
 void BinarySearchTree::listLocationRatioHelper(BinaryNode* node, const string& location, const string& start_date, const string& end_date) const {
@@ -659,5 +655,17 @@ void BinarySearchTree::listRestaurantRatioHelper(BinaryNode* node, const string&
         listRestaurantRatioHelper(node->right, restaurantName, start_date, end_date);
     }
 }
-
+//----------------------------------------------------------------
     //the public function that gets the ratio 
+        // Function to display ratios for a specified location (city or Wilaya)
+void BinarySearchTree::listRatioForLocation(const string& location, const string& start_date, const string& end_date) const {
+    // Call the helper function to display ratios for the specified location
+    listLocationRatioHelper(root, location, start_date, end_date);
+}
+
+// Overloaded function for displaying ratios for a specific restaurant
+void BinarySearchTree::listRatioForRestaurant(const string& restaurantName, const string& start_date, const string& end_date) const {
+    // Call the helper function to display ratios for the specified restaurant name
+    listRestaurantRatioHelper(root, restaurantName, start_date, end_date);
+}
+
