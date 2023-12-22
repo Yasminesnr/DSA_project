@@ -13,7 +13,7 @@ void testUpdateCost() {
     std::string c = "City";
     double wsg[5] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Call update_cost with sample values
     std::string date = "2023-01-01";
@@ -43,7 +43,7 @@ void testUpdateDailySales() {
     std::string c = "City";
     double wsg[5] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Call update_daily_sales with sample values
     std::string date = "2023-01-01";
@@ -86,7 +86,7 @@ void testUpdateMonthlySales() {
     std::string c = "City";
     double wsg[5] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Add entries for daily sales for a specific month
     std::string target_month = "2023-01";
@@ -127,7 +127,7 @@ void testUpdateMonthlyRating() {
     std::string c = "City";
     double wsg[5] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Add entries for daily rating for a specific month
     std::string target_month = "2023-01";
@@ -173,7 +173,7 @@ void testUpdateMonthlyPub() {
     std::string c = "City";
     double wsg[5] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Add entries for the date in daily_data
     std::string date1 = "2023-01-01";
@@ -205,7 +205,7 @@ void testUpdateROI() {
     std::string c = "City";
     double wsg[5] = { 1.0, 2.0, 3.0, 4.0, 5.0 };
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Add entries for daily sales and advertising for a specific month
     std::string target_month = "2023-01";
@@ -242,7 +242,7 @@ void testUpdateWeightedSales() {
     std::string c = "City";
     double wsg[5] = { 0.0, 0.0, 0.0, 0.0, 0.0 }; // Assuming WSG is initialized to zero
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Add entries for daily sales and rating for a specific month
     std::string target_month = "2023-01";
@@ -285,7 +285,7 @@ void testDisplayMonthlyReport() {
     std::string c = "City";
     double wsg[5] = { 0.0, 0.0, 0.0, 0.0, 0.0 }; // Assuming WSG is initialized to zero
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Add entries for daily sales and rating for a specific month
     std::string target_month = "2023-01";
@@ -325,7 +325,7 @@ void testCalculatePeriodSales() {
     std::string c = "City";
     double wsg[5] = { 0.0, 0.0, 0.0, 0.0, 0.0 }; // Assuming WSG is initialized to zero
 
-    Restaurant restaurant("MyRestaurant", 10, ddata, mdata, w, c, wsg);
+    Restaurant restaurant("MyRestaurant", 10, w, c, wsg);
 
     // Add entries for daily sales for a specific month
     std::string target_month = "2023-01";
@@ -379,7 +379,7 @@ int main() {
 
 
     // Call the testDisplayMonthlyReport function
-    //testDisplayMonthlyReport();
+    testDisplayMonthlyReport();
 
     // Call the testCalculatePeriodSales function
     //testCalculatePeriodSales();

@@ -1,4 +1,5 @@
 #include "Restaurant.h"
+#include "Timer.h"
 
 #include<iostream>
 #include<algorithm>
@@ -13,7 +14,7 @@ int Restaurant::restaurantNum = 0;
 
 // constructor
 Restaurant::Restaurant(string name, int noe, string& w, string& c, double wsg[5])
-    : name{ name }, num_of_employees{ noe }, wilaya{ w }, city{ c } {
+    : name{ name }, num_of_employees{ noe },  wilaya{ w }, city{ c } {
     restaurantNum++;
     generate_id(w, c);
     copy(wsg, wsg + 5, WSG);
@@ -239,6 +240,7 @@ void Restaurant::update_weighted_sales(const string curr_month) {
 // this function will be called to display the report of any restaurant at any month
 // Inside the Restaurant class
 void Restaurant::display_monthly_report(const string& target_month) const {
+    Timer timer("display_monthly_report");
     cout << "Report for Restaurant " << ID << " in " << target_month << ":" << endl;
 
     // 1. Total Sales
