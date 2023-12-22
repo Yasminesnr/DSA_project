@@ -14,9 +14,10 @@ int Restaurant::restaurantNum = 0;
 
 // constructor
 Restaurant::Restaurant(string name, int noe, string& w, string& c)
-    : name{ name }, num_of_employees{ noe }, wilaya{ w }, city{ c } {
+    : name{ name }, num_of_employees{ noe },  wilaya{ w }, city{ c } {
     restaurantNum++;
     generate_id(w, c);
+    
     fill(begin(WSG), end(WSG), 0.0);  // Initialize the WSG array with zeros
 }
 //movingis more efficient when it comes to large set of data
@@ -242,7 +243,7 @@ void Restaurant::update_weighted_sales(const string curr_month) {
 // Inside the Restaurant class
 void Restaurant::display_monthly_report(const string& target_month) const {
     Timer timer("display_monthly_report");
-    cout << "Report for Restaurant " << ID << " in " << target_month << ":" << endl;
+    cout << "Report for Restaurant " << name << " in " << target_month << ":" << endl;
 
     // 1. Total Sales
     double total_sales = monthly_data.at(target_month).monthly_sales[0];
@@ -307,11 +308,4 @@ void Restaurant::generate_id(const string& wilaya, const string& city) {
     SixDigitsNum = SixDigitsNum.substr(SixDigitsNum.length() - 6); //to take the last 6 characters
 
     ID = wilaya + city + SixDigitsNum;
-}
-
-ostream& operator<<(ostream& os, const Restaurant& restaurant)
-{
-    os << "Restaurant ID: " << restaurant.getID() << ", Name: " << restaurant.getName() << ", City: " << restaurant.getCity();
-
-    return os;
 }
