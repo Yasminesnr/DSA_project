@@ -75,7 +75,7 @@ class Restaurant {
 
 public:
     // constructor
-    Restaurant(string name, int noe, string& w, string& c, double wsg[5]);
+    Restaurant(string name, int noe, string& w, string& c);
 
     // Getter for ID
     string getID() const;
@@ -143,6 +143,10 @@ public:
 
     // function to calculate the sales for a specific month
     double* calculate_period_sales(const string& start_date, const string& end_date);
+
+
+    // overload the operator '<<'
+    friend ostream& operator<<(ostream& os, const Restaurant& restaurant);
 
 
 private:
