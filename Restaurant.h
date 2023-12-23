@@ -14,7 +14,7 @@ struct DailyData {
     // Array containing the daily sales for each cuisine
     // The first item is the total sales for the corresponding day and it is calculated within the function update_daily_sales
     // the other items are entered using the function update_daily_cuisine_sales()
-    // the indices correspond to Algerian, Syrian, Chinese, Indian, and European cuisines resp
+    // the indices correspond to Algerian, Chinese, European, Indian, and Syrian  cuisines resp
     double daily_sales[6];
 
     // The cost of that day, will be calculated using the function update_cost()
@@ -26,7 +26,7 @@ struct DailyData {
 
     // Array containing The average daily rating for each cuisine
     // As the average daily rating for the whole restaurant is not needed, the size of the array will be 5 as the cuisins
-    // the order of the cuisins will be the same: Algerian, Syrian, Chinese, Indian, and European
+    // the order of the cuisins will be the same: Algerian, Chinese, European, Indian, and Syrian 
     // THIS POINT CAN BE DISCUSSED 
     double daily_rating[5];
 
@@ -82,10 +82,6 @@ public:
     // constructor
     Restaurant(string name, int noe, string& w, string& c);
 
-    // an other constructor to create a random restaurant
-    // it is used to generate the dataset
-    Restaurant();
-
     // Getter for ID
     string getID() const;
 
@@ -120,7 +116,10 @@ public:
     void update_cost(const string& date, double totalCost);
 
     // function to update (enter) the daily sales for each cuisine
-    void update_daily_sales(string date, double algerian_sales, double syrian_sales, double chinese_sales, double indian_sales, double european_sales);
+    void update_daily_sales(const string& date, double algerian_sales, double syrian_sales, double chinese_sales, double indian_sales, double european_sales);
+
+    //function to update the daily rating for each cuisine
+    void update_daily_rating(const string& date, double algerian_rating, double chinese_rating, double european_rating, double indian_rating, double syrian_rating);
 
     // *************************************** Monthly Data Functions ********************************
 
@@ -142,7 +141,6 @@ public:
     // we need to take the month as parameter to retrieve its date (sales and rating)
     void update_weighted_sales(const string curr_month);
 
-
     // function to display a report of the sales of this restaurant at any month
     // this function will be called to display the report of any restaurant at any month
     // Inside the Restaurant class
@@ -158,18 +156,7 @@ public:
     Restaurant* left;
     Restaurant* right;
 
-<<<<<<< HEAD
-    // overload the operator '<<'
-    friend ostream& operator<<(ostream& os, const Restaurant& restaurant);
-
-    // Static function to enter random restaurants to a CSV file
-    static void RestaurantsToCSV(const string& filename, int numRestaurants);
-
-
-
-=======
     double WSG[5] = { 0 }; //initialize at zero value
->>>>>>> 9209239ad6b80ed376910e77fbbaef503d12a009
 private:
 
     // ********************* Data Members ******************************************************
@@ -194,22 +181,7 @@ private:
     // ideas: add function to transform wilayas and cities to numbers and vice versa
     // still don't get the cities and districts thing
     void generate_id(const string& wilaya, const string& city);
-<<<<<<< HEAD
-
-    // ******************************* functions for the random dataset genarating *******************************
-    
-    // function to randomly generate data members
-    string generateRandomName();
-    int generateRandomNumber();
-    string generateRandomWilaya();
-    string generateRandomCity();
-
-    
-=======
->>>>>>> 9209239ad6b80ed376910e77fbbaef503d12a009
 };
-
-
 
 
 #endif
