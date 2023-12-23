@@ -74,6 +74,11 @@ struct MonthlyData {
 class Restaurant {
 
 public:
+    Restaurant();
+
+    //copy constructor
+    Restaurant(const Restaurant& restaurant);
+
     // constructor
     Restaurant(string name, int noe, string& w, string& c);
 
@@ -112,7 +117,7 @@ public:
     // function to calculate the daily cost according to that date
     // consider reducing the number of parameters, maybe the all the ingrediants together?
     // we may want to add a condition to make sure the date exists
-    double update_cost(const string& date, double rent, double employees_pay, double electricity, double gas, double vegetables, double meat, double other_ingrediants, double others);
+    void update_cost(const string& date, double totalCost);
 
     // function to update (enter) the daily sales for each cuisine
     void update_daily_sales(string date, double algerian_sales, double syrian_sales, double chinese_sales, double indian_sales, double european_sales);
@@ -148,7 +153,12 @@ public:
     // function to calculate the sales for a specific month
     double* calculate_period_sales(const string& start_date, const string& end_date);
 
+    // *************************************** Binary Search Tree *************************************
+    //for the BST node
+    Restaurant* left;
+    Restaurant* right;
 
+<<<<<<< HEAD
     // overload the operator '<<'
     friend ostream& operator<<(ostream& os, const Restaurant& restaurant);
 
@@ -157,6 +167,9 @@ public:
 
 
 
+=======
+    double WSG[5] = { 0 }; //initialize at zero value
+>>>>>>> 9209239ad6b80ed376910e77fbbaef503d12a009
 private:
 
     // ********************* Data Members ******************************************************
@@ -171,7 +184,7 @@ private:
     // the ratio used to determine the winner of the prize. it is also called Weighted Sales Growth
     // it is calculated by calling the function update_weighted_sales()
     // it is cumulative for each cuisine
-    double WSG[5];
+    
 
     static int restaurantNum; //for the ID initialzed at 0 it increments everytime a restaurant is created
     // ******************************* generate the Id ************************************************
@@ -181,6 +194,7 @@ private:
     // ideas: add function to transform wilayas and cities to numbers and vice versa
     // still don't get the cities and districts thing
     void generate_id(const string& wilaya, const string& city);
+<<<<<<< HEAD
 
     // ******************************* functions for the random dataset genarating *******************************
     
@@ -191,6 +205,8 @@ private:
     string generateRandomCity();
 
     
+=======
+>>>>>>> 9209239ad6b80ed376910e77fbbaef503d12a009
 };
 
 

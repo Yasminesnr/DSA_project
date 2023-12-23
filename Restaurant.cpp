@@ -1,6 +1,5 @@
 #include "Restaurant.h"
 #include "Timer.h"
-
 #include<iostream>
 #include<algorithm>
 #include<string>
@@ -16,15 +15,26 @@ using namespace std;
 // Initialization of the static member
 int Restaurant::restaurantNum = 0;
 
+Restaurant::Restaurant()
+{
+}
+
+Restaurant::Restaurant(const Restaurant& restaurant) :ID{restaurant.ID},name { restaurant.name }, num_of_employees{ restaurant.num_of_employees }, wilaya{ restaurant.wilaya }, city{ restaurant.city }, left{ nullptr }, right{ nullptr }
+{
+    daily_data = restaurant.daily_data;
+    monthly_data = restaurant.monthly_data;
+    copy(begin(restaurant.WSG), end(restaurant.WSG), begin(WSG));
+   
+}
+
 // constructor
 Restaurant::Restaurant(string name, int noe, string& w, string& c)
-    : name{ name }, num_of_employees{ noe },  wilaya{ w }, city{ c } {
+    : name{ name }, num_of_employees{ noe }, wilaya{ w }, city{ c }, left{ nullptr }, right{nullptr} {
     restaurantNum++;
     generate_id(w, c);
-    
-    fill(begin(WSG), end(WSG), 0.0);  // Initialize the WSG array with zeros
-}
-//movingis more efficient when it comes to large set of data
+    copy(WSG, WSG + 5, WSG);
+    cout << "num: " << restaurantNum << endl;
+} //moving is more efficient when it comes to large set of data
 
 // the rendom constructor
 Restaurant::Restaurant()
@@ -134,19 +144,26 @@ bool Restaurant::isGreater(Restaurant root) {
 // function to calculate the daily cost according to that date
 // consider reducing the number of parameters, maybe the all the ingrediants together?
 // we may want to add a condition to make sure the date exists
-double Restaurant::update_cost(const string& date, double rent, double employees_pay, double electricity, double gas, double vegetables, double meat, double other_ingrediants, double others) {
+void Restaurant::update_cost(const string& date, double totalCost) {
     // Check if the date exists in daily_data
     auto corr_date = daily_data.find(date);
 
     if (corr_date != daily_data.end()) {
         // Date exists, return the calculated cost
-        // employees_pay is the payment of one employee. to get the total amount of payment we multiply it by the number of employees
-        return rent + employees_pay * num_of_employees + electricity + gas + vegetables + meat + other_ingrediants + corr_date->second.daily_pub + others;
+        corr_date->second.daily_cost = totalCost;
     }
     else {
+<<<<<<< HEAD
         // Date doesn't exist
         cerr << "Error: Date not found in daily_data for update_cost." << endl;
         return 0.0;
+=======
+        // Date doesn't exist, handle the error (you can return an error value or throw an exception)
+        std::cerr << "Error: Date not found in daily_data for update_cost." << std::endl;
+        // You might want to handle the error in a way that makes sense for your application
+        // For now, returning 0 as an error value
+      
+>>>>>>> 9209239ad6b80ed376910e77fbbaef503d12a009
     }
 }
 
@@ -320,6 +337,7 @@ void Restaurant::generate_id(const string& wilaya, const string& city) {
 
     ID = wilaya + city + SixDigitsNum;
 }
+<<<<<<< HEAD
 
 // ******************************* functions for randomly generate the dataset *******************************
 string Restaurant::generateRandomName() {
@@ -385,3 +403,5 @@ void Restaurant::RestaurantsToCSV(const string& filename, int numRestaurants){
     // Close the CSV file
     csvFile.close();
 }
+=======
+>>>>>>> 9209239ad6b80ed376910e77fbbaef503d12a009
