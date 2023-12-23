@@ -5,10 +5,6 @@
 #include<string>
 #include<unordered_map>
 #include<list>
-#include <vector>
-#include <cstdlib>
-#include <ctime>
-#include <fstream>
 
 using namespace std;
 
@@ -35,14 +31,6 @@ Restaurant::Restaurant(string name, int noe, string& w, string& c)
     copy(WSG, WSG + 5, WSG);
     cout << "num: " << restaurantNum << endl;
 } //moving is more efficient when it comes to large set of data
-
-// the rendom constructor
-Restaurant::Restaurant()
-        : name(generateRandomName()), num_of_employees(generateRandomNumber()), wilaya(generateRandomWilaya()), city(generateRandomCity()) {
-        restaurantNum++;
-        generate_id(wilaya, city);
-        fill(begin(WSG), end(WSG), 0.0);
-    }
 
 // Getter for ID
 string Restaurant::getID() const {
@@ -153,33 +141,38 @@ void Restaurant::update_cost(const string& date, double totalCost) {
         corr_date->second.daily_cost = totalCost;
     }
     else {
-<<<<<<< HEAD
-        // Date doesn't exist
-        cerr << "Error: Date not found in daily_data for update_cost." << endl;
-        return 0.0;
-=======
         // Date doesn't exist, handle the error (you can return an error value or throw an exception)
         std::cerr << "Error: Date not found in daily_data for update_cost." << std::endl;
         // You might want to handle the error in a way that makes sense for your application
         // For now, returning 0 as an error value
       
->>>>>>> 9209239ad6b80ed376910e77fbbaef503d12a009
     }
 }
 
 
 // function to update (enter) the daily sales for each cuisine
-void Restaurant::update_daily_sales(string date, double algerian_sales, double syrian_sales, double chinese_sales, double indian_sales, double european_sales) {
+void Restaurant::update_daily_sales(const string& date, double algerian_sales, double chinese_sales, double european_sales, double indian_sales, double syrian_sales) {
     // first find the corresponding date and retrieve the daily_sales array and update it
     auto corr_date = daily_data.find(date);
 
     corr_date->second.daily_sales[1] = algerian_sales;
-    corr_date->second.daily_sales[2] = syrian_sales;
-    corr_date->second.daily_sales[3] = chinese_sales;
+    corr_date->second.daily_sales[2] = chinese_sales;
+    corr_date->second.daily_sales[3] = european_sales;
     corr_date->second.daily_sales[4] = indian_sales;
-    corr_date->second.daily_sales[5] = european_sales;
+    corr_date->second.daily_sales[5] = syrian_sales;
     // update the total sales
     corr_date->second.daily_sales[0] = algerian_sales + syrian_sales + chinese_sales + indian_sales + european_sales;
+}
+
+void Restaurant::update_daily_rating(const string& date, double algerian_rating, double chinese_rating, double european_rating, double indian_rating, double syrian_rating)
+{
+    auto corr_date = daily_data.find(date);
+
+    corr_date->second.daily_rating[1] = algerian_rating;
+    corr_date->second.daily_rating[2] = chinese_rating;
+    corr_date->second.daily_rating[3] = european_rating;
+    corr_date->second.daily_rating[4] = indian_rating;
+    corr_date->second.daily_rating[5] = syrian_rating;
 }
 
 // *************************************** Monthly Data Functions ********************************
@@ -337,71 +330,3 @@ void Restaurant::generate_id(const string& wilaya, const string& city) {
 
     ID = wilaya + city + SixDigitsNum;
 }
-<<<<<<< HEAD
-
-// ******************************* functions for randomly generate the dataset *******************************
-string Restaurant::generateRandomName() {
-    // Possible names for the restaurant
-    vector<string> pre = {"El-baraka", "El-Rahma", "El-Djenina", "El-Boustane", "El-Magharibi", "Lalla", "El-Mesk"};
-    vector<string> post = {"Grill House", "Cuisine Haven", "Palace Kitchen", "Taste Oasis", "Flavors Shack"};
-
-    // Randomly select a pre and post
-    string randomPre = pre[rand() % pre.size()];
-    string randomPost = post[rand() % post.size()];
-
-    // Combine them
-    return randomPre + " " + randomPost;
-}
-
-int Restaurant::generateRandomNumber() {
-    // reasonable range for the number of employees as the restaurant has five cuisines
-    const int min = 20;
-    const int max = 100;
-
-    // Generate a random number within the specified range
-    return rand() % (max - min + 1) + min;
-}
-
-string Restaurant::generateRandomWilaya() {
-    // range for Wilaya numbers
-    const int minWilaya = 1;
-    const int maxWilaya = 58;
-
-    // Generate a random Wilaya number within the specified range
-    return to_string(rand() % (maxWilaya - minWilaya + 1) + minWilaya);
-}
-
-string Restaurant::generateRandomCity() {
-    // Define the range for Cities numbers
-    const int minCity = 0101;
-    const int maxCity = 5803;
-
-    // Generate a random Wilaya number within the specified range
-    return to_string(rand() % (maxCity - minCity + 1) + minCity);
-}
-
-// Static function to enter random restaurants to a CSV file
-void Restaurant::RestaurantsToCSV(const string& filename, int numRestaurants){
-    // open the CSV file
-    ofstream csvFile(filename);
-
-    // write the header that represents the columns
-    csvFile << "Name,Number_of_Employees,Wilaya,City\n";
-
-    // seed the random number generator
-    srand(time(0));
-
-    // generate and enter random restaurants to the csv file
-    for(int i = 0; i < numRestaurants; i++){
-        // create the Restaurant object
-        Restaurant restaurant;
-
-        // enter the restaurant data in the csv file
-        csvFile << restaurant.getName() << "," << restaurant.getNumOfEmployees() << ","
-                << restaurant.getWilaya() << "," << restaurant.getCity() << "\n";
-    }
-    // Close the CSV file
-    csvFile.close();
-}
-=======
->>>>>>> 9209239ad6b80ed376910e77fbbaef503d12a009
