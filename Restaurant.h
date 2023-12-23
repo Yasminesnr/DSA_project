@@ -163,7 +163,7 @@ private:
     // the ratio used to determine the winner of the prize. it is also called Weighted Sales Growth
     // it is calculated by calling the function update_weighted_sales()
     // it is cumulative for each cuisine
-    double WSG[5] = { 0 }; //initialize at zero value
+    double WSG[5];
 
     static int restaurantNum; //for the ID initialzed at 0 it increments everytime a restaurant is created
     // ******************************* generate the Id ************************************************

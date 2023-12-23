@@ -128,7 +128,8 @@ double Restaurant::update_cost(const string& date, double rent, double employees
 
     if (corr_date != daily_data.end()) {
         // Date exists, return the calculated cost
-        return rent + employees_pay + electricity + gas + vegetables + meat + other_ingrediants + corr_date->second.daily_pub + others;
+        // employees_pay is the payment of one employee. to get the total amount of payment we multiply it by the number of employees
+        return rent + employees_pay * num_of_employees + electricity + gas + vegetables + meat + other_ingrediants + corr_date->second.daily_pub + others;
     }
     else {
         // Date doesn't exist, handle the error (you can return an error value or throw an exception)
