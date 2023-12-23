@@ -77,6 +77,10 @@ public:
     // constructor
     Restaurant(string name, int noe, string& w, string& c);
 
+    // an other constructor to create a random restaurant
+    // it is used to generate the dataset
+    Restaurant();
+
     // Getter for ID
     string getID() const;
 
@@ -148,6 +152,10 @@ public:
     // overload the operator '<<'
     friend ostream& operator<<(ostream& os, const Restaurant& restaurant);
 
+    // Static function to enter random restaurants to a CSV file
+    static void RestaurantsToCSV(const string& filename, int numRestaurants);
+
+
 
 private:
 
@@ -174,7 +182,18 @@ private:
     // still don't get the cities and districts thing
     void generate_id(const string& wilaya, const string& city);
 
+    // ******************************* functions for the random dataset genarating *******************************
+    
+    // function to randomly generate data members
+    string generateRandomName();
+    int generateRandomNumber();
+    string generateRandomWilaya();
+    string generateRandomCity();
+
+    
 };
+
+
 
 
 #endif

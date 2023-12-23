@@ -6,6 +6,10 @@
 #include<string>
 #include<unordered_map>
 #include<list>
+#include <vector>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 
 using namespace std;
 
@@ -21,6 +25,14 @@ Restaurant::Restaurant(string name, int noe, string& w, string& c)
     fill(begin(WSG), end(WSG), 0.0);  // Initialize the WSG array with zeros
 }
 //movingis more efficient when it comes to large set of data
+
+// the rendom constructor
+Restaurant::Restaurant()
+        : name(generateRandomName()), num_of_employees(generateRandomNumber()), wilaya(generateRandomWilaya()), city(generateRandomCity()) {
+        restaurantNum++;
+        generate_id(wilaya, city);
+        fill(begin(WSG), end(WSG), 0.0);
+    }
 
 // Getter for ID
 string Restaurant::getID() const {
@@ -132,10 +144,8 @@ double Restaurant::update_cost(const string& date, double rent, double employees
         return rent + employees_pay * num_of_employees + electricity + gas + vegetables + meat + other_ingrediants + corr_date->second.daily_pub + others;
     }
     else {
-        // Date doesn't exist, handle the error (you can return an error value or throw an exception)
-        std::cerr << "Error: Date not found in daily_data for update_cost." << std::endl;
-        // You might want to handle the error in a way that makes sense for your application
-        // For now, returning 0 as an error value
+        // Date doesn't exist
+        cerr << "Error: Date not found in daily_data for update_cost." << endl;
         return 0.0;
     }
 }
@@ -309,4 +319,69 @@ void Restaurant::generate_id(const string& wilaya, const string& city) {
     SixDigitsNum = SixDigitsNum.substr(SixDigitsNum.length() - 6); //to take the last 6 characters
 
     ID = wilaya + city + SixDigitsNum;
+}
+
+// ******************************* functions for randomly generate the dataset *******************************
+string Restaurant::generateRandomName() {
+    // Possible names for the restaurant
+    vector<string> pre = {"El-baraka", "El-Rahma", "El-Djenina", "El-Boustane", "El-Magharibi", "Lalla", "El-Mesk"};
+    vector<string> post = {"Grill House", "Cuisine Haven", "Palace Kitchen", "Taste Oasis", "Flavors Shack"};
+
+    // Randomly select a pre and post
+    string randomPre = pre[rand() % pre.size()];
+    string randomPost = post[rand() % post.size()];
+
+    // Combine them
+    return randomPre + " " + randomPost;
+}
+
+int Restaurant::generateRandomNumber() {
+    // reasonable range for the number of employees as the restaurant has five cuisines
+    const int min = 20;
+    const int max = 100;
+
+    // Generate a random number within the specified range
+    return rand() % (max - min + 1) + min;
+}
+
+string Restaurant::generateRandomWilaya() {
+    // range for Wilaya numbers
+    const int minWilaya = 1;
+    const int maxWilaya = 58;
+
+    // Generate a random Wilaya number within the specified range
+    return to_string(rand() % (maxWilaya - minWilaya + 1) + minWilaya);
+}
+
+string Restaurant::generateRandomCity() {
+    // Define the range for Cities numbers
+    const int minCity = 0101;
+    const int maxCity = 5803;
+
+    // Generate a random Wilaya number within the specified range
+    return to_string(rand() % (maxCity - minCity + 1) + minCity);
+}
+
+// Static function to enter random restaurants to a CSV file
+void Restaurant::RestaurantsToCSV(const string& filename, int numRestaurants){
+    // open the CSV file
+    ofstream csvFile(filename);
+
+    // write the header that represents the columns
+    csvFile << "Name,Number_of_Employees,Wilaya,City\n";
+
+    // seed the random number generator
+    srand(time(0));
+
+    // generate and enter random restaurants to the csv file
+    for(int i = 0; i < numRestaurants; i++){
+        // create the Restaurant object
+        Restaurant restaurant;
+
+        // enter the restaurant data in the csv file
+        csvFile << restaurant.getName() << "," << restaurant.getNumOfEmployees() << ","
+                << restaurant.getWilaya() << "," << restaurant.getCity() << "\n";
+    }
+    // Close the CSV file
+    csvFile.close();
 }
